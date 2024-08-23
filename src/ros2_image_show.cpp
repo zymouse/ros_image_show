@@ -14,7 +14,7 @@ void ImageSubscriber::topic_callback(const sensor_msgs::msg::Image::SharedPtr ms
   (void)msg;
   RCLCPP_INFO_THROTTLE(
     this->get_logger(), 
-    *this->get_clock()->now(), 
+    *this->get_clock(), 
     std::chrono::milliseconds(5000).count(),
     "encoding: %s", 
     msg->encoding.c_str()
