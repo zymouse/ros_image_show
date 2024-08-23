@@ -16,13 +16,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-find_package(OpenCV REQUIRED)
-
 ament_auto_add_library(${PROJECT_NAME}_node SHARED
   src/ros2_image_show.cpp
-)
-target_link_libraries(${PROJECT_NAME}_node
-  ${OpenCV_LIBRARIES}
 )
 
 rclcpp_components_register_node(${PROJECT_NAME}_node

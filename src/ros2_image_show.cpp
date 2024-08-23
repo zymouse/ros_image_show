@@ -2,28 +2,23 @@
 
 namespace image_subscriber
 {
-ImageSubscriber::ImageSubscriber(const rclcpp::NodeOptions & options)
-: Node("image_subscriber", options)
+ImageSubscriber::ImageSubscriber(const rclcpp::NodeOptions & node_options)
+: Node("image_subscriber", node_options)
 {
   subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
     "image_topic", 10, std::bind(&ImageSubscriber::topic_callback, this, std::placeholders::_1));
 }
 
-void ImageSubscriber::topic_callback(const sensor_msgs::msg::Image::SharedPtr msg) const
+void ImageSubscriber::topic_callback(const sensor_msgs::msg::Image::SharedPtr msg)
 {
-  cv_bridge::CvImagePtr cv_ptr;
-  try
-  {
-    cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-  }
-  catch (cv_bridge::Exception & e)
-  {
-    RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
-    return;
-  }
-
-  cv::imshow("Image Window", cv_ptr->image);
-  cv::waitKey(1);
+  (void)msg;
+  RCLCPP_INFO_THROTTLE(
+    this->get_logger(), 
+    *this->get_clock()->now(), 
+    std::chrono::milliseconds(5000).count(),
+    "encoding: %s", 
+    msg->encoding.c_str()
+  );
 }
 
 }  // namespace image_subscriber
